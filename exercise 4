@@ -1,0 +1,8 @@
+def pluralize(word):
+    if word.endswith(("s", "x", "z", "sh", "ch")):
+        return word + "es"
+    return word + "s"
+
+nouns = ["cat", "dog", "box", "bus", "church"]
+for noun in nouns:
+    print(f"Singular: {noun}, Plural: {pluralize(noun)}")
