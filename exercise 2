@@ -1,0 +1,35 @@
+class FiniteStateAutomaton:
+    def __init__(self):
+        self.current_state = "q0"
+        self.final_state = "q2"
+        self.transition_table = {
+            "q0": {"a": "q1", "b": "q0"},
+            "q1": {"a": "q1", "b": "q2"},
+            "q2": {"a": "q1", "b": "q0"},
+        }
+
+    def reset(self):
+        self.current_state = "q0"
+
+    def process_input(self, input_string):
+        for char in input_string:
+            if char in self.transition_table[self.current_state]:
+                self.current_state = self.transition_table[self.current_state][char]
+            else:
+                self.current_state = None
+                break
+
+    def accepts(self):
+        return self.current_state == self.final_state
+
+
+# Example usage
+fsa = FiniteStateAutomaton()
+
+test_strings = ["aab", "ab", "abc", "abab", "b", ""]
+
+for s in test_strings:
+    fsa.reset()
+    fsa.process_input(s)
+    result = "Accepted" if fsa.accepts() else "Rejected"
+    print(f"String '{s}': {result}")
