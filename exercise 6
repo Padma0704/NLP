@@ -1,0 +1,19 @@
+import random
+from collections import defaultdict
+
+text = "the cat sat on the mat. the cat ate the rat. the rat ran away."
+words = text.split()
+model = defaultdict(list)
+
+for w1, w2 in zip(words[:-1], words[1:]):
+    model[w1].append(w2)
+
+def generate_text(model, start_word, num_words):
+    result, current_word = [start_word], start_word
+    for _ in range(num_words - 1):
+        if current_word not in model: break
+        current_word = random.choice(model[current_word])
+        result.append(current_word)
+    return ' '.join(result)
+
+print(generate_text(model, "the", 10))
