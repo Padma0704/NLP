@@ -1,0 +1,19 @@
+import random
+
+train_data = [[('The', 'DT'), ('cat', 'NN'), ('sat', 'VBD')],
+              [('A', 'DT'), ('dog', 'NN'), ('barked', 'VBD')],
+              [('She', 'PRP'), ('is', 'VBZ'), ('running', 'VBG')]]
+
+word_tag_freq, tag_freq = {}, {}
+
+for sentence in train_data:
+    for word, tag in sentence:
+        word_tag_freq.setdefault(word, {})[tag] = word_tag_freq.get(word, {}).get(tag, 0) + 1
+        tag_freq[tag] = tag_freq.get(tag, 0) + 1
+
+def assign_pos_tag(word):
+    return max(word_tag_freq.get(word, {random.choice(list(tag_freq.keys())): 1}), key=lambda tag: word_tag_freq.get(word, {}).get(tag, 0))
+
+test_sentence = ['The', 'dog', 'is', 'barking']
+predicted_tags = [assign_pos_tag(word) for word in test_sentence]
+print(list(zip(test_sentence, predicted_tags)))
