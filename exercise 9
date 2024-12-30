@@ -1,0 +1,23 @@
+import re
+import nltk
+from nltk.tokenize import word_tokenize
+
+# Download the necessary NLTK data package
+nltk.download('punkt_tab') # This line was missing, causing the error.
+
+def pos_tag_rule_based(text):
+    words = word_tokenize(text)
+    patterns = [
+        (r'\b\w+s\b', 'NNS'),
+        (r'\b\w+ed\b', 'VBD'),
+        (r'\b\w+ing\b', 'VBG'),
+        (r'\b\w+ly\b', 'RB'),
+        (r'\b\w+able\b', 'JJ'),
+        (r'\bI\b', 'PRP'),
+        (r'\b\w+\b', 'NN')
+    ]
+    return [(word, next((tag for pattern, tag in patterns if re.match(pattern, word)), 'NN')) for word in words]
+
+sentence = "The quick brown fox jumps over the lazy dogs running."
+tagged_sentence = pos_tag_rule_based(sentence)
+print(tagged_sentence)
