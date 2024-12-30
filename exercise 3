@@ -1,0 +1,21 @@
+import nltk
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+
+# Download the necessary NLTK data packages
+nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+nltk.download('punkt_tab') # Download the punkt_tab data package
+
+text = "The foxes are running quickly towards the dens."
+
+tokens = word_tokenize(text)
+print(f"Tokens: {tokens}")
+
+lemmatizer = WordNetLemmatizer()
+lemmas = [lemmatizer.lemmatize(token, pos='v') for token in tokens]
+print(f"Lemmatized (verbs): {lemmas}")
+
+lemmas_noun = [lemmatizer.lemmatize(token, pos='n') for token in tokens]
+print(f"Lemmatized (nouns): {lemmas_noun}")
