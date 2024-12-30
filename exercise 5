@@ -1,0 +1,13 @@
+from nltk.stem import PorterStemmer
+from nltk.tokenize import word_tokenize
+import nltk
+
+nltk.download('punkt')
+
+words = ["running", "jumps", "easily", "flies", "happiness", "cats"]
+
+ps = PorterStemmer()
+
+stems = [ps.stem(word) for word in words]
+print(f"Original Words: {words}")
+print(f"Stemmed Words: {stems}")
