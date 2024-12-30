@@ -1,0 +1,20 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.tag import UnigramTagger
+from nltk.corpus import treebank
+
+nltk.download('punkt')
+nltk.download('treebank')
+
+tagger = UnigramTagger(treebank.tagged_sents()[:3000])
+
+def transform_tags(tags):
+    return [(word, 'DT' if tag == 'NN' and i + 1 < len(tags) and tags[i + 1][1] == 'VB' else tag) 
+            for i, (word, tag) in enumerate(tags)]
+
+sentence = "The quick brown fox jumps over the lazy dog"
+tokens = word_tokenize(sentence)
+initial_tags = tagger.tag(tokens)
+final_tags = transform_tags(initial_tags)
+
+print(final_tags)
