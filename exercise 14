@@ -1,0 +1,24 @@
+import nltk
+from nltk import CFG
+from nltk.parse import ChartParser
+
+grammar = CFG.fromstring("""
+  S -> NP VP
+  NP -> Det N
+  VP -> V NP | V
+  Det -> 'the' | 'a'
+  N -> 'cat' | 'dog' | 'cats' | 'dogs'
+  V -> 'chased' | 'saw' | 'chases' | 'sees'
+""")
+
+def check_agreement(sentence):
+    parser = ChartParser(grammar)
+    for tree in parser.parse(sentence):
+        subject = tree[0][1]
+        verb = tree[1][1] if len(tree[1]) > 0 else tree[1][0]
+        subject_is_singular = subject in ['cat', 'dog']
+        verb_is_singular = verb in ['chases', 'sees']
+        return "Agreement correct" if subject_is_singular == verb_is_singular else "Agreement incorrect"
+
+sentence = ['the', 'cat', 'chased', 'the', 'dog']
+print(check_agreement(sentence))
